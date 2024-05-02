@@ -12,6 +12,8 @@ package-lock.json
 /dist/
 /build/
 /out/
+/public/
+
 
 # Logs and test coverage
 *.log
