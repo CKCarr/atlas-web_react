@@ -6,13 +6,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    header: './js/header.js',
-    body: './js/body.js',
-    footer: './js/footer.js',
+    header: "./modules/header/header.js",
+    body: './modules/header/body.js',
+    footer: './modules/header/footer.js',
   },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public'),
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -22,7 +23,15 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif)$/,
-        type: 'asset/resource',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images/',
+            },
+          },
+        ],
       },
     ],
   },
@@ -31,16 +40,20 @@ module.exports = {
       filename: 'index.html',
       template: './src/index.html',
       inject: 'body',
-      showErrors: true,
-      showWarnings: true,
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: './css/[name].css',
     }),
+    new CleanWebpackPlugin(
+      {
+        cleanStaleWebpackAssets: false,
+      }
+    ),
   ],
   devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    compress: true,
     port: 8564,
-    open: true,
   },
-  devtool: 'inline-source-map',
+  devTool: 'inline-source-map'
 };
