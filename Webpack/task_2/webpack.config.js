@@ -2,11 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: {
-    header: './js/header.js',
-    body: './js/body.js',
-    footer: './js/footer.js',
-  },
+  entry: './js/dashboard_main.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
