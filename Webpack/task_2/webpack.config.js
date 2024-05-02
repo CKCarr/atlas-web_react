@@ -17,10 +17,10 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.css$/,
-      //   use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      // },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
       {
         test: /\.(png|jpg|gif)$/,
         use: [
@@ -35,15 +35,15 @@ module.exports = {
       },
     ],
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     filename: 'index.html',
-  //     template: './src/index.html',
-  //     inject: 'body',
-  //   }),
-  //   new MiniCssExtractPlugin({
-  //     filename: './css/[name].css',
-  //   }),
-  //   new CleanWebpackPlugin(),
-  // ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/index.html',
+      inject: 'body',
+    }),
+    new MiniCssExtractPlugin({
+      filename: './css/[name].css',
+    }),
+    new CleanWebpackPlugin(),
+  ],
 };
