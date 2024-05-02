@@ -17,10 +17,11 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
+      chunks: "all",
       cacheGroups: {
-        commons: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: "commons",
+          name: "vendors",
           chunks: "all",
         },
       },
