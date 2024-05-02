@@ -1,14 +1,15 @@
+.App {
+  height: auto;
+}
+
 .App-logo {
-  height: 30vmin;
+  height: 25vmin;
   pointer-events: none;
-  /* margin:0;
-  top: 0; */
 }
 
 .App-header {
   display: flex;
   border-bottom: red 2px solid;
-
 }
 
 .header {
@@ -16,17 +17,17 @@
   justify-content: center;
   align-items: center;
   padding-top: 5vh;
+  font-size: calc(10px + 2vmin);
 }
 
 .App-body {
   display: flex;
   justify-content: left;
-  height: 60vh;
+  height: 40vh;
 }
 
 .App-footer {
   border-top: red 2px solid;
   justify-content: center;
   text-align: center;
-  height: 10vh;
 }
