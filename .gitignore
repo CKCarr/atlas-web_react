@@ -9,10 +9,10 @@ package-lock.json
 .idea/
 
 # Compiled output
-/dist/
-/build/
-/out/
-/public/
+dist/
+build/
+out/
+public/
 
 
 # Logs and test coverage
