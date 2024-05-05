@@ -3,23 +3,25 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "dist"),
-    },
-    hot: true,
-    port: 3000,
-    open: true,
-  },
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
@@ -62,10 +64,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./dist/index.html",
+      template: "./src/index.template.html",
       inject: "body",
+      filename: "index.html",
     }),
     new CleanWebpackPlugin(),
   ],
-  devtool: "inline-source-map",
+  devtool: "source-map",
 };

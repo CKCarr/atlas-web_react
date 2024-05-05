@@ -1,1 +1,14 @@
-console.log("Webpack project initialized!");
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "../src/App/App";
+import Notifications from "../src/Notifications/Notifications";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <div className="root-Notifications">
+      <Notifications />
+    </div>
+    <App />
+  </React.StrictMode>
+);
