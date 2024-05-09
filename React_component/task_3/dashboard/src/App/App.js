@@ -7,6 +7,7 @@ import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import CourseList from "../CourseList/CourseList";
 import BodySection from "../BodySection/BodySection";
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 
 import { getLatestNotification } from "../utils/utils";
 
@@ -55,6 +56,9 @@ class App extends React.Component {
           <BodySection title="test">
             <p>test</p>
           </BodySection>
+          <BodySectionWithMarginBottom title="Test Title">
+            <p>This content will have a margin at the bottom.</p>
+          </BodySectionWithMarginBottom>
           <Footer />
         </div>
       </>

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { mount } from "enzyme";
+
+import { getLatestNotification } from "../utils/utils";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import CourseList from "../CourseList/CourseList";
-import { getLatestNotification } from "../utils/utils";
 
 import "./App.css";
 
@@ -50,6 +50,7 @@ class App extends React.Component {
           <Notifications listNotifications={listNotifications} />
           <Header />
           {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+
           <Footer />
         </div>
       </>
