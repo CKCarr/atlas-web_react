@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+
 import Notifications from "../Notifications/Notifications";
 import NotificationItem from "../Notifications/NotificationItem";
 
@@ -43,5 +44,15 @@ describe("Notifications Component Tests", () => {
       const wrapper = shallow(<Notifications listNotifications={[]} />);
       expect(wrapper.text()).not.toContain("Here is the list of notifications");
     });
+  });
+});
+
+// test using Enzyme and Jest
+describe("Notifications", () => {
+  it("should call markAsRead on item click", () => {
+    const markAsReadMock = jest.fn();
+    const wrapper = shallow(<NotificationItem markAsRead={markAsReadMock} />);
+    wrapper.find("li").simulate("click");
+    expect(markAsReadMock).toHaveBeenCalled();
   });
 });

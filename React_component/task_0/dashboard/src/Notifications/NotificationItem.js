@@ -2,23 +2,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function NotificationItem({ type, value, html }) {
-  if (html) {
-    return <li data-notification-type={type} dangerouslySetInnerHTML={html} />;
+class NotificationItem extends React.Component {
+  render() {
+    const { type, value, html, markAsRead } = this.props;
+    return (
+      <li data-notification-type={type} onClick={markAsRead}>
+        {value}
+        {html && <span dangerouslySetInnerHTML={html} />}
+      </li>
+    );
   }
-  return <li data-notification-type={type}>{value}</li>;
 }
 
 NotificationItem.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
-  html: PropTypes.shape({
-    __html: PropTypes.string,
-  }),
+  html: PropTypes.shape({ __html: PropTypes.string }),
+  markAsRead: PropTypes.func,
 };
 
 NotificationItem.defaultProps = {
-  type: "default",
+  markAsRead: () => {},
 };
 
 export default NotificationItem;

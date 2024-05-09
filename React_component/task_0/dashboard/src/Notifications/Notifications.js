@@ -1,73 +1,65 @@
 // src/Notifications/Notifications.js
-import React from "react";
-import "./Notifications.css";
+import React, { Component } from "react";
 import NotificationItem from "./NotificationItem";
-import PropTypes, { oneOf } from "prop-types";
+import PropTypes from "prop-types";
 import { NotificationItemShape } from "./NotificationItemShape";
 
-const btnStyle = {
-  top: "1em",
-  right: "1em",
-  background: "transparent",
-  border: "none",
-  display: "flex",
-  width: "100%",
-  justifyContent: "flex-end",
-};
+class Notifications extends Component {
+  handleClick = () => {
+    console.log("Close button has been clicked");
+  };
 
-class Notifications extends React.Component {
+  markAsRead = (id) => {
+    console.log(`Notification ${id} has been marked as read`);
+  };
+
   render() {
+    const { displayDrawer, listNotifications } = this.props;
+
     return (
-      <div className="notification-container">
-        <div className="menuItem">Your notifications</div>
-        {this.props.displayDrawer ? (
+      <>
+        <div>
+          <div className="menuItem">Your notifications</div>
+        </div>
+        {displayDrawer && (
           <div className="Notifications">
             <button
-              style={btnStyle}
+              style={{
+                float: "right",
+                border: "none",
+                backgroundColor: "white",
+              }}
               aria-label="Close"
-              onClick={() => console.log("Close button has been clicked")}
+              onClick={this.handleClick}
             >
-              <img src={close_icon} />
+              X
             </button>
             <p>Here is the list of notifications</p>
             <ul>
-              {this.props.listNotifications.length === 0 ? (
-                <NotificationItem
-                  id={0}
-                  value="No new notification for now"
-                  type="no-new"
-                  markAsRead={this.markAsRead}
-                />
+              {listNotifications.length === 0 ? (
+                <NotificationItem value="No new notification for now" />
               ) : (
-                <></>
+                listNotifications.map((notification) => (
+                  <NotificationItem
+                    key={notification.id}
+                    type={notification.type}
+                    value={notification.value}
+                    html={notification.html}
+                    markAsRead={() => this.markAsRead(notification.id)}
+                  />
+                ))
               )}
-              {this.props.listNotifications.map((list) => (
-                <NotificationItem
-                  id={list.id}
-                  key={list.id}
-                  type={list.type}
-                  value={list.value}
-                  html={list.html}
-                  markAsRead={this.markAsRead}
-                />
-              ))}
             </ul>
           </div>
-        ) : (
-          <></>
         )}
-      </div>
+      </>
     );
-  }
-
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
   }
 }
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  listNotifications: PropTypes.arrayOf(PropTypes.shape(NotificationItemShape)),
 };
 
 Notifications.defaultProps = {
