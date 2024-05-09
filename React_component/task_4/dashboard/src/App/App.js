@@ -8,7 +8,6 @@ import Footer from "../Footer/Footer";
 import CourseList from "../CourseList/CourseList";
 import BodySection from "../BodySection/BodySection";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
-import WithLogging from "./HOC/WithLogging";
 
 import { getLatestNotification } from "../utils/utils";
 
@@ -29,10 +28,12 @@ export const listNotifications = [
 class App extends React.Component {
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
+    console.log("Component did mount");
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress);
+    console.log("Unmounting");
   }
 
   handleKeyPress = (event) => {
@@ -86,4 +87,4 @@ App.propDefault = {
   logOut: () => {},
 };
 
-export default WithLogging(App);
+export default App;
