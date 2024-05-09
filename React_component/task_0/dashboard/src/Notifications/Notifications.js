@@ -1,10 +1,11 @@
+// src/Notifications/Notifications.js
 import React from "react";
 import "./Notifications.css";
 import NotificationItem from "./NotificationItem";
-import PropTypes from "prop-types";
+import PropTypes, { oneOf } from "prop-types";
 import { NotificationItemShape } from "./NotificationItemShape";
 
-function Notifications({ listNotifications, displayDrawer = false }) {
+function Notifications({ listNotifications = [], displayDrawer = false }) {
   // function to handle button click
   function handleClick() {
     console.log("Close button has been clicked");
@@ -30,14 +31,18 @@ function Notifications({ listNotifications, displayDrawer = false }) {
           </button>
           <p>Here is the list of notifications</p>
           <ul>
-            {listNotifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                type={notification.type}
-                value={notification.value}
-                html={notification.html}
-              />
-            ))}
+            {listNotifications.length === 0 ? (
+              <NotificationItem value="No new notification for now" />
+            ) : (
+              listNotifications.map((notification) => (
+                <NotificationItem
+                  key={notification.id}
+                  type={notification.type}
+                  value={notification.value}
+                  html={notification.html}
+                />
+              ))
+            )}
           </ul>
         </div>
       )}
@@ -47,7 +52,10 @@ function Notifications({ listNotifications, displayDrawer = false }) {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(PropTypes.shape(NotificationItemShape)),
+  listNotifications: oneOf([
+    PropTypes.arrayOf(PropTypes.shape(NotificationItemShape)),
+    PropTypes.arrayOf(NotificationItemShape),
+  ]),
 };
 
 Notifications.defaultProps = {

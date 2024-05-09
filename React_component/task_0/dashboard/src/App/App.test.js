@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { shallow } from "enzyme";
+import React from "react";
+import { mount } from "enzyme";
 import App from "./App";
-
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
@@ -10,10 +9,16 @@ import CourseList from "../CourseList/CourseList";
 
 describe("App", () => {
   let wrapper;
+  const mockLogOut = jest.fn();
+  const alertMock = jest.spyOn(window, "alert").mockImplementation(() => {});
 
   beforeEach(() => {
-    wrapper = shallow(<App />);
-    expect(wrapper.exists()).toBe(true);
+    wrapper = mount(<App logOut={mockLogOut} />);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    wrapper.unmount();
   });
 
   it("contains Notifications component", () => {
@@ -34,14 +39,17 @@ describe("App", () => {
   });
 
   it("does not contain Login component when isLoggedIn is true", () => {
-    // Simulate isLoggedIn being true by passing isLoggedIn prop
-    wrapper = shallow(<App isLoggedIn={true} />);
+    wrapper.setProps({ isLoggedIn: true });
     expect(wrapper.find(Login).exists()).toBe(false);
+    expect(wrapper.find(CourseList).exists()).toBe(true);
   });
 
-  it("contains CourseList component when isLoggedIn is true", () => {
-    // Simulate isLoggedIn being true by passing isLoggedIn prop
-    wrapper = shallow(<App isLoggedIn={true} />);
-    expect(wrapper.find(CourseList).exists()).toBe(true);
+  it("calls logOut and alerts when ctrl+h is pressed", () => {
+    // Simulate ctrl+h key press
+    const event = new KeyboardEvent("keydown", { key: "h", ctrlKey: true });
+    document.dispatchEvent(event);
+
+    expect(mockLogOut).toHaveBeenCalled();
+    expect(alertMock).toHaveBeenCalledWith("Logging you out");
   });
 });

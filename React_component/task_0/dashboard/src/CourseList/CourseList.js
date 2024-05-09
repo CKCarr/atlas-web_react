@@ -4,7 +4,7 @@ import "./CourseList.css";
 import PropTypes from "prop-types";
 import { CourseShape } from "./CourseShape";
 
-function CourseList({ listCourses }) {
+function CourseList({ listCourses = [] }) {
   return (
     <table id="CourseList">
       <thead>
@@ -33,7 +33,7 @@ function CourseList({ listCourses }) {
 }
 
 CourseList.propTypes = {
-  listCourses: PropTypes.arrayOf(PropTypes.shape(CourseShape)),
+  listCourses: PropTypes.arrayOf(PropTypes.shape(CourseShape)).isRequired,
 };
 
 CourseList.defaultProps = {

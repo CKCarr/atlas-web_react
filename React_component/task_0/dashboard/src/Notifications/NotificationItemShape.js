@@ -1,3 +1,4 @@
+// src/Notifications/NotificationsItemShape.js
 import PropTypes from "prop-types";
 
 export const NotificationItemShape = PropTypes.shape({

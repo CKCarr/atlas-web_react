@@ -1,12 +1,16 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Notifications from "./Notifications";
-import NotificationItem from "./NotificationItem";
+import Notifications from "../Notifications/Notifications";
+import NotificationItem from "../Notifications/NotificationItem";
 
 describe("Notifications Component Tests", () => {
   describe("Rendering with empty or no listNotifications", () => {
+    const listNotifications = [];
+
     it("renders correctly with an empty array", () => {
-      const wrapper = shallow(<Notifications listNotifications={[]} />);
+      const wrapper = shallow(
+        <Notifications listNotifications={listNotifications} />
+      );
       expect(wrapper.find(NotificationItem).length).toBe(0);
       expect(wrapper.text()).toContain("No new notification for now");
     });
