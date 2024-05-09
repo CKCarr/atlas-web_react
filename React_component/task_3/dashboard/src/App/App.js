@@ -52,7 +52,18 @@ class App extends React.Component {
         <div className="App">
           <Notifications listNotifications={listNotifications} />
           <Header />
-          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+          {isLoggedIn ? (
+            <BodySectionWithMarginBottom title="Course List">
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login />
+            </BodySectionWithMarginBottom>
+          )}
+          <BodySection title="News from the School">
+            <p>Stay informed with the latest updates from our school.</p>
+          </BodySection>
           <BodySection title="test">
             <p>test</p>
           </BodySection>
