@@ -6,16 +6,22 @@ import CourseListRow from "./CourseListRow";
 describe("CourseList Component Tests", () => {
   it("renders correctly with an empty array", () => {
     const wrapper = shallow(<CourseList listCourses={[]} />);
-    // Expecting at least one header row and one "No course available yet" row
+    // Check the rendered text for the message
+    expect(wrapper.find(CourseListRow).at(2).dive().text()).toContain(
+      "No course available yet"
+    );
     expect(wrapper.find(CourseListRow).length).toBe(3);
-    expect(wrapper.text()).toContain("No course available yet");
   });
 
   it("renders correctly if listCourses is not provided", () => {
     const wrapper = shallow(<CourseList />);
-    // Similarly, expecting at least one header row and one "No course available yet" row
+    // Check the specific text at the expected position
+    console.log(wrapper.debug()); // Outputs the structure of the rendered component
+    console.log(wrapper.text()); // Outputs the text content of the rendered component
+    expect(wrapper.find(CourseListRow).at(2).dive().text()).toContain(
+      "No course available yet"
+    );
     expect(wrapper.find(CourseListRow).length).toBe(3);
-    expect(wrapper.text()).toContain("No course available yet");
   });
 
   it("renders the correct number of courses when listCourses is provided", () => {
@@ -25,7 +31,6 @@ describe("CourseList Component Tests", () => {
       { id: 3, name: "React", credit: 40 },
     ];
     const wrapper = shallow(<CourseList listCourses={listCourses} />);
-    // Plus two header rows, if that's always rendered
     expect(wrapper.find(CourseListRow).length).toBe(listCourses.length + 2);
   });
 });
