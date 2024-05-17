@@ -1,0 +1,37 @@
+.Notifications li[data-notification-type="default"] {
+    color: rgb(4, 4, 126);
+}
+
+.Notifications li[data-notification-type="urgent"] {
+    color: rgb(255, 0, 0);
+}
+
+.Notifications {
+    display: block;
+    /* Hidden by default */
+    padding: 10px;
+    margin: 20px;
+    border: 2px dotted red;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    /* Ensures it appears above other content */
+}
+
+.Notifications.active {
+    display: block;
+    /* Display when active */
+}
+
+.menuItem {
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    /* Slightly below notifications to allow for click access */
+}
