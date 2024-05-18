@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, css } from "aphrodite/no-important";
 
 // Define your styles using Aphrodite
@@ -44,51 +44,90 @@ const styles = StyleSheet.create({
       width: "50%",
     },
     button: {
-      width: "50",
+      width: "50%",
     },
   },
 });
 
-function Login() {
-  return (
-    <>
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      email: "",
+      password: "",
+      enableSubmit: false,
+    };
+
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+  }
+
+  handleChangeEmail(event) {
+    this.setState({ email: event.target.value }, this.toggleSubmitButton);
+  }
+
+  handleChangePassword(event) {
+    this.setState({ password: event.target.value }, this.toggleSubmitButton);
+  }
+
+  toggleSubmitButton() {
+    const { email, password } = this.state;
+    const enableSubmit = email !== "" && password !== "";
+    this.setState({ enableSubmit });
+    console.log("Submit button toggled");
+  }
+
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    this.setState({ isLoggedIn: true });
+    console.log("Logged in successfully");
+  }
+
+  render() {
+    const { email, password, enableSubmit } = this.state;
+
+    return (
       <div className={css(styles.loginBody)}>
         <p>Login to access the full dashboard</p>
-        <div className={css(styles.formGroup)}>
-          <label
-            htmlFor="email"
-            onClick={() => document.getElementById("email").focus()}
-            className={css(styles.label)}
-          >
+        <form
+          onSubmit={this.handleLoginSubmit}
+          className={css(styles.formGroup)}
+        >
+          <label htmlFor="email" className={css(styles.label)}>
             Email:
           </label>
           <input
             type="email"
             id="email"
             name="email"
-            autoComplete="on"
+            value={email}
+            onChange={this.handleChangeEmail}
             className={css(styles.input)}
           />
 
-          <label
-            htmlFor="password"
-            onClick={() => document.getElementById("password").focus()}
-            className={css(styles.label)}
-          >
+          <label htmlFor="password" className={css(styles.label)}>
             Password:
           </label>
           <input
             type="password"
             id="password"
             name="password"
-            autoComplete="off"
+            value={password}
+            onChange={this.handleChangePassword}
             className={css(styles.input)}
           />
-          <button className={css(styles.button)}>OK</button>
-        </div>
+          <input
+            type="submit"
+            value="OK"
+            className={css(styles.button)}
+            disabled={!enableSubmit}
+          />
+        </form>
       </div>
-    </>
-  );
+    );
+  }
 }
 
 export default Login;
