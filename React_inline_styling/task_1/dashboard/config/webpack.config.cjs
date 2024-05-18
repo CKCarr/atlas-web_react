@@ -1,5 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -8,8 +12,9 @@ module.exports = {
   devtool: isProduction ? "source-map" : "inline-source-map",
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "bundle.[contenthash].js",
+    path: path.resolve(__dirname, "../dist"),
+    publicPath: "/",
   },
   performance: {
     maxAssetSize: 1000000,
@@ -18,7 +23,7 @@ module.exports = {
   devServer: {
     hot: true,
     static: {
-      directory: path.join(__dirname, "dist"),
+      directory: path.join(__dirname, "/dist"),
     },
     compress: true,
     port: 8564,
@@ -37,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
@@ -46,6 +51,8 @@ module.exports = {
           {
             loader: "image-webpack-loader",
             options: {
+              bypassOnDebug: true,
+              disable: true,
               mozjpeg: {
                 progressive: true,
                 quality: 65,
@@ -53,18 +60,6 @@ module.exports = {
               optipng: {
                 enabled: true,
               },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              webp: {
-                quality: 75,
-              },
-              bypassOnDebug: true,
-              disable: true,
             },
           },
         ],
@@ -74,6 +69,36 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+      filename: "index.html",
+      inject: "body",
+    }),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
     }),
   ],
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+      }),
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
+        },
+      }),
+    ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
 };

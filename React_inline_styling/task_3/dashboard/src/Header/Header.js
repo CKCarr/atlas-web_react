@@ -6,7 +6,7 @@ import logo from "../assets/holberton_logo.jpg";
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "#fff",
-    borderBottom: "2px solid red",
+    borderBottom: "2px solid #FF0000",
     paddingTop: "2vh",
     alignItems: "center",
     display: "flex",
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: "1.5rem",
+    color: "#FF0000",
   },
 });
 

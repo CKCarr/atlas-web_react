@@ -25,41 +25,43 @@ const styles = StyleSheet.create({
 
 function Login() {
   return (
-    <div className={css(styles.loginBody)}>
-      <p>Login to access the full dashboard</p>
-      <div>
-        <label
-          htmlFor="email"
-          onClick={() => document.getElementById("email").focus()}
-          className={css(styles.label)}
-        >
-          Email:
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          autoComplete="on"
-          className={css(styles.input)}
-        />
+    <>
+      <div className={css(styles.loginBody)}>
+        <p>Login to access the full dashboard</p>
+        <div>
+          <label
+            htmlFor="email"
+            onClick={() => document.getElementById("email").focus()}
+            className={css(styles.label)}
+          >
+            Email:
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autoComplete="on"
+            className={css(styles.input)}
+          />
 
-        <label
-          htmlFor="password"
-          onClick={() => document.getElementById("password").focus()}
-          className={css(styles.label)}
-        >
-          Password:
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          autoComplete="off"
-          className={css(styles.input)}
-        />
-        <button className={css(styles.button)}>OK</button>
+          <label
+            htmlFor="password"
+            onClick={() => document.getElementById("password").focus()}
+            className={css(styles.label)}
+          >
+            Password:
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autoComplete="off"
+            className={css(styles.input)}
+          />
+          <button className={css(styles.button)}>OK</button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

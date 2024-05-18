@@ -80,12 +80,7 @@ class App extends React.Component {
           <BodySection title="News from the School">
             <p>Stay informed with the latest updates from our school.</p>
           </BodySection>
-          <BodySection title="test">
-            <p>test</p>
-          </BodySection>
-          <BodySectionWithMarginBottom title="Test Title">
-            <p>This content will have a margin at the bottom.</p>
-          </BodySectionWithMarginBottom>
+
           <Footer className={css(styles.footer)} />
         </div>
       </>

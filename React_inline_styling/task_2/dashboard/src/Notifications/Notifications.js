@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+// src/Notifications/Notifications.js
+import React, { Component, memo } from "react";
 import NotificationItem from "./NotificationItem";
 import PropTypes from "prop-types";
 import { NotificationItemShape } from "./NotificationItemShape";
 import { StyleSheet, css } from "aphrodite";
+
+const NOTIFICATION_SHAPE = NotificationItemShape;
 
 const styles = StyleSheet.create({
   menuItem: {
@@ -27,11 +30,9 @@ const styles = StyleSheet.create({
   },
   notificationItemDefault: {
     color: "rgb(4, 4, 126)",
-    backgroundColor: "lightblue",
   },
   notificationItemUrgent: {
     color: "rgb(255, 0, 0)",
-    backgroundColor: "pink",
   },
 });
 
@@ -99,7 +100,7 @@ class Notifications extends Component {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  listNotifications: PropTypes.arrayOf(NOTIFICATION_SHAPE),
 };
 
 Notifications.defaultProps = {

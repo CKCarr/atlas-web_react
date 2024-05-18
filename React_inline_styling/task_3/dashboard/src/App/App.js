@@ -79,13 +79,17 @@ class App extends React.Component {
           )}
           <BodySection title="News from the School">
             <p>Stay informed with the latest updates from our school.</p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad ut,
+              sunt optio ullam tempora numquam. Laborum minus in animi vero cum
+              soluta reprehenderit ab voluptatem inventore impedit! Illum
+              tempora enim velit quaerat aliquid magnam saepe natus odio aliquam
+              sint quo ipsa tempore necessitatibus, quis ut nostrum reiciendis
+              itaque quas repudiandae nemo quam. Laborum alias blanditiis
+              voluptate eius quidem facere. Architecto!
+            </p>
           </BodySection>
-          <BodySection title="test">
-            <p>test</p>
-          </BodySection>
-          <BodySectionWithMarginBottom title="Test Title">
-            <p>This content will have a margin at the bottom.</p>
-          </BodySectionWithMarginBottom>
+
           <Footer className={css(styles.footer)} />
         </div>
       </>
