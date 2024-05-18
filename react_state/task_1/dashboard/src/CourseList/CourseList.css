@@ -1,0 +1,35 @@
+/* General styling for the CourseList table */
+#CourseList {
+    width: 100%;
+    border-collapse: collapse;
+    /* Ensures that borders between cells are merged */
+    margin: 20px 0;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+#CourseList th,
+#CourseList td {
+    border: 1px solid #ddd;
+    /* Light grey border around cells */
+    padding: 8px 12px;
+    /* Padding inside each cell for text */
+    text-align: left;
+    /* Aligns text to the left */
+}
+
+#CourseList th {
+    background-color: #ffffff;
+    color: #000000;
+
+}
+
+#CourseList tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+    /* Zebra striping for rows */
+}
+
+#CourseList tbody tr:hover {
+    background-color: #ddd;
+}
