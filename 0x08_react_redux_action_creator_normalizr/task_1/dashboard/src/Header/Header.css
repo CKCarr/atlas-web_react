@@ -1,0 +1,17 @@
+.App-logo {
+    height: 25vmin;
+    pointer-events: none;
+}
+
+.App-header {
+    display: flex;
+    border-bottom: red 2px solid;
+}
+
+.header {
+    color: red;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5vh;
+    font-size: calc(10px + 2vmin);
+}
