@@ -1,0 +1,32 @@
+.App-body {
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.App-body p {
+    color: ccc;
+    font-size: 1.5em;
+    margin: 4px;
+    padding: 8px;
+}
+
+.App-body label,
+.App-body input,
+.App-body button {
+    color: ccc;
+    display: inline-block;
+    padding: 2px;
+    margin: 6px;
+}
+
+.App-body button {
+    background-color: white;
+    color: ccc;
+    border: #cececee7 1px solid;
+    cursor: pointer;
+}
+
+.App-body button:hover {
+    background-color: #cececee7;
+}
