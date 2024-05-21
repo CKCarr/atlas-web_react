@@ -1,4 +1,6 @@
 // src/actions/uiActionCreators.js
+import { bindActionCreators } from "redux";
+
 import {
   LOGIN,
   LOGOUT,
@@ -34,3 +36,17 @@ export const hideNotificationDrawer = () => {
     type: HIDE_NOTIFICATION_DRAWER,
   };
 };
+
+// bind action creators
+// wrap them in dispatch functions
+// this allows to directly call action creators without needing to call dispatch
+
+export const boundLogin = (dispatch) => bindActionCreators(login, dispatch);
+
+export const boundLogout = (dispatch) => bindActionCreators(logout, dispatch);
+
+export const boundDisplayNotificationDrawer = (dispatch) =>
+  bindActionCreators(displayNotificationDrawer, dispatch);
+
+export const boundHideNotificationDrawer = (dispatch) =>
+  bindActionCreators(hideNotificationDrawer, dispatch);

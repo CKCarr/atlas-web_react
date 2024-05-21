@@ -1,4 +1,5 @@
 // src/actions/notificationActionCreators.js
+import { bindActionCreators } from "redux";
 import { MARK_AS_READ, SET_TYPE_FILTER } from "./notificationActionTypes";
 
 // Create the action creators
@@ -18,3 +19,12 @@ export const setNotificationFilter = (filter) => {
     filter,
   };
 };
+
+// bind Action Creators
+// wrap them in dispatch functions
+// this allows to directly call action creators without needing to call dispatch
+export const boundMarkAsRead = (dispatch) =>
+  bindActionCreators(markAsRead, dispatch);
+
+export const boundSetNotificationFilter = (dispatch) =>
+  bindActionCreators(setNotificationFilter, dispatch);
