@@ -24,7 +24,7 @@ module.exports = {
   devServer: {
     hot: true,
     static: {
-      directory: path.join(__dirname, "../dist"),
+      directory: path.join(__dirname, "public"),
     },
     compress: true,
     port: 8564,
@@ -47,7 +47,7 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg|ico)$/i,
-        type: "asset/resource",
+
         use: [
           {
             loader: "file-loader",
@@ -81,9 +81,10 @@ module.exports = {
       test: /\.js$|\.css$|\.html$/,
     }),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      template: "public/index.html",
       filename: "index.html",
       inject: "body",
+      favicon: "public/holbie-favicon.ico",
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
