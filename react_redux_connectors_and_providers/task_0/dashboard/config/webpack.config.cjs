@@ -86,6 +86,7 @@ module.exports = {
       filename: "index.html",
       inject: "body",
       favicon: "dist/holbie-favicon.ico",
+      scriptLoading: "defer",
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css",
@@ -102,12 +103,7 @@ module.exports = {
         '!stats.json',
       ],
     }),
-    new BundleAnalyzerPlugin(
-      {
-        analyzerMode: 'static',
-        openAnalyzer: false,
-      }
-    ),
+    new BundleAnalyzerPlugin(),
   ],
   optimization: {
     minimize: true,

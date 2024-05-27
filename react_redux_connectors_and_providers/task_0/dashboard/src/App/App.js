@@ -1,5 +1,7 @@
+// src/App/App.js
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
@@ -31,21 +33,24 @@ const styles = StyleSheet.create({
   },
 });
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayDrawer: false,
+      listNotifications: listNotifications,
       user: {
         email: "",
         password: "",
         isLoggedIn: false,
       },
-      listNotifications: listNotifications,
     };
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleDisplayDrawer = () => {
@@ -106,24 +111,25 @@ class App extends React.Component {
   };
 
   render() {
-    const { displayDrawer, user, listNotifications } = this.state;
+    const { displayDrawer, listNotifications } = this.state;
+    const { isLoggedIn } = this.props;
     const value = {
-      user,
+      user: this.props.user,
       logOut: this.logOut,
     };
 
     return (
       <AppContext.Provider value={value}>
         <Notifications
-          listNotifications={listNotifications}
-          displayDrawer={displayDrawer}
+          listNotifications={this.listNotifications}
+          displayDrawer={this.displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
           markNotificationAsRead={this.markNotificationAsRead}
         />
         <div className={css(styles.body)}>
           <Header />
-          {user.isLoggedIn ? (
+          {isLoggedIn ? (
             <>
               <BodySectionWithMarginBottom title="Course List">
                 <CourseList listCourses={listCourses} />
@@ -155,4 +161,25 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export const mapStateToProps = (state) => ({
+  isLoggedIn: state.get("isUserLoggedIn"),
+});
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.object,
+};
+
+App.defaultProps = {
+  user: {
+    email: "",
+    password: "",
+    isLoggedIn: false,
+  },
+};
+
+// Use named export for the unconnected component for testing purposes
+export { App as UnconnectedApp };
+
+// Default export the connected component
+export default connect(mapStateToProps)(App);

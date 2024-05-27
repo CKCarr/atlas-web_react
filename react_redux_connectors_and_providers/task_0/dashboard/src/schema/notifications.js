@@ -1,7 +1,7 @@
 // task_0/dashboard/src/schema/notifications.js
 
 import { normalize, schema } from "normalizr";
-import * as notificationsData from "../../notifications.json";
+import * as notificationsData from '../../dist/notifications.json';
 
 // schema.Entity args (key, definition = {}, options = {})
 
