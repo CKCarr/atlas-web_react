@@ -12,6 +12,7 @@ import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBot
 import { StyleSheet, css } from "aphrodite";
 import { getLatestNotification } from "../utils/utils";
 import AppContext from "./AppContext";
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
 export const listCourses = [
   { id: 1, name: "ES6", credit: 60 },
@@ -111,8 +112,8 @@ export class App extends React.Component {
   };
 
   render() {
-    const { displayDrawer, listNotifications } = this.state;
-    const { isLoggedIn } = this.props;
+    const { listNotifications } = this.state;
+    const { isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer } = this.props;
     const value = {
       user: this.props.user,
       logOut: this.logOut,
@@ -123,8 +124,8 @@ export class App extends React.Component {
         <Notifications
           listNotifications={listNotifications}
           displayDrawer={displayDrawer}
-          handleDisplayDrawer={this.handleDisplayDrawer}
-          handleHideDrawer={this.handleHideDrawer}
+          handleDisplayDrawer={handleDisplayDrawer}
+          handleHideDrawer={handleHideDrawer}
           markNotificationAsRead={this.markNotificationAsRead}
         />
         <div className={css(styles.body)}>
@@ -166,8 +167,16 @@ export const mapStateToProps = (state) => ({
   displayDrawer: state.get('isNotificationDrawerVisible'),
 });
 
+export const mapDispatchToProps = {
+  displayNotificationDrawer,
+  hideNotificationDrawer,
+};
+
 App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
+  displayDrawer: PropTypes.bool.isRequired,
+  displayNotificationDrawer: PropTypes.func.isRequired,
+  hideNotificationDrawer: PropTypes.func.isRequired,
   user: PropTypes.object,
 };
 
