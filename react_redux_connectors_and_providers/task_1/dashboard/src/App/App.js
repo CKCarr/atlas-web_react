@@ -38,7 +38,7 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayDrawer: false,
+
       listNotifications: listNotifications,
       user: {
         email: "",
@@ -49,20 +49,8 @@ export class App extends React.Component {
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
-
-  handleDisplayDrawer = () => {
-    this.setState({ displayDrawer: true });
-    console.log("Display drawer Open");
-  };
-
-  handleHideDrawer = () => {
-    this.setState({ displayDrawer: false });
-    console.log("Display drawer Closed");
-  };
 
   logIn = (email, password) => {
     this.setState({
@@ -124,8 +112,8 @@ export class App extends React.Component {
         <Notifications
           listNotifications={listNotifications}
           displayDrawer={displayDrawer}
-          handleDisplayDrawer={handleDisplayDrawer}
-          handleHideDrawer={handleHideDrawer}
+          handleDisplayDrawer={displayNotificationDrawer}
+          handleHideDrawer={hideNotificationDrawer}
           markNotificationAsRead={this.markNotificationAsRead}
         />
         <div className={css(styles.body)}>
@@ -192,4 +180,4 @@ App.defaultProps = {
 export { App as UnconnectedApp };
 
 // Default export the connected component
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
