@@ -13,15 +13,17 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import AppContext from './AppContext';
 import { listNotifications } from './App';
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
 // Create a mock store
 const mockStore = configureMockStore([]);
 const store = mockStore(fromJS({
   isUserLoggedIn: false,
+  isNotificationDrawerVisible: false,
 }));
 
 // Reusable wrapper for connected App component
-const getConnectedAppWrapper = (isLoggedIn = false) => (
+const getConnectedAppWrapper = (isLoggedIn = false, displayDrawer = false) => (
   <Provider store={store}>
     <AppContext.Provider value={{ user: { isLoggedIn }, logOut: jest.fn() }}>
       <App />
@@ -30,9 +32,14 @@ const getConnectedAppWrapper = (isLoggedIn = false) => (
 );
 
 // Reusable wrapper for unconnected App component
-const getUnconnectedAppWrapper = (isLoggedIn = false) => (
+const getUnconnectedAppWrapper = (isLoggedIn = false, displayDrawer = false) => (
   <AppContext.Provider value={{ user: { isLoggedIn }, logOut: jest.fn() }}>
-    <App />
+    <App
+      isLoggedIn={isLoggedIn}
+      displayDrawer={displayDrawer}
+      displayNotificationDrawer={jest.fn()}
+      hideNotificationDrawer={jest.fn()}
+    />
   </AppContext.Provider>
 );
 
@@ -76,7 +83,7 @@ describe('Unconnected App', () => {
   const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => { });
 
   beforeEach(() => {
-    wrapper = shallow(getUnconnectedAppWrapper(false));
+    wrapper = mount(getUnconnectedAppWrapper(false));
   });
 
   afterEach(() => {
@@ -87,8 +94,8 @@ describe('Unconnected App', () => {
   });
 
   it("does not contain Login component when user is logged in", async () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
+    const instance = wrapper.find(App).instance(); // Access the unconnected component instance
+    console.log('Before login:', instance.state);
     await act(async () => {
       instance.setState({
         user: {
@@ -99,14 +106,15 @@ describe('Unconnected App', () => {
       });
     });
     wrapper.update();
-    console.log(wrapper.debug()); // Log the component tree
+    console.log('After login:', instance.state);
+    console.log('Props:', wrapper.props());
+    console.log('Component Tree:', wrapper.debug());
     expect(wrapper.find(Login).exists()).toBe(false);
-    expect(wrapper.find(CourseList).exists());
+    expect(wrapper.find(CourseList).exists()).toBe(true);
   });
 
   it('calls logOut and alerts when ctrl+h is pressed', async () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
+    const instance = wrapper.find(App).instance(); // Access the unconnected component instance
     const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
 
     await act(async () => {
@@ -118,36 +126,33 @@ describe('Unconnected App', () => {
     expect(alertMock).toHaveBeenCalledWith('Logging you out');
   });
 
-  it('should have default state for displayDrawer as false', () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
-    expect(instance.state.displayDrawer).toBe(false);
-  });
+  // No need to test for handleDisplayDrawer and handleHideDrawer directly as they are handled by Redux actions
+  it('calls displayNotificationDrawer action when handleDisplayDrawer is called', () => {
+    const instance = wrapper.find(App).instance(); // Access the unconnected component instance
+    const displayNotificationDrawerMock = jest.fn();
+    wrapper.setProps({ displayNotificationDrawer: displayNotificationDrawerMock });
 
-  it('should update state to true when handleDisplayDrawer is called', () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
     act(() => {
-      instance.handleDisplayDrawer();
+      instance.props.displayNotificationDrawer();
     });
     wrapper.update();
-    expect(instance.state.displayDrawer).toBe(true);
+    expect(displayNotificationDrawerMock).toHaveBeenCalled();
   });
 
-  it('should update state to false when handleHideDrawer is called', () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
+  it('calls hideNotificationDrawer action when handleHideDrawer is called', () => {
+    const instance = wrapper.find(App).instance(); // Access the unconnected component instance
+    const hideNotificationDrawerMock = jest.fn();
+    wrapper.setProps({ hideNotificationDrawer: hideNotificationDrawerMock });
+
     act(() => {
-      instance.handleDisplayDrawer(); // first set it to true
-      instance.handleHideDrawer(); // then set it to false
+      instance.props.hideNotificationDrawer();
     });
     wrapper.update();
-    expect(instance.state.displayDrawer).toBe(false);
+    expect(hideNotificationDrawerMock).toHaveBeenCalled();
   });
 
   it('verifies that markNotificationAsRead works as intended', () => {
-    const instance = wrapper.dive().instance(); // Access the unconnected component instance
-    console.log(instance); // Log the instance
+    const instance = wrapper.find(App).instance(); // Access the unconnected component instance
     act(() => {
       instance.setState({ listNotifications });
     });
@@ -168,9 +173,11 @@ describe('mapStateToProps', () => {
   it('should verify that the function returns the right object when passing the state', () => {
     let state = fromJS({
       isUserLoggedIn: true,
+      isNotificationDrawerVisible: true,
     });
     const expectedProps = {
       isLoggedIn: true,
+      displayDrawer: true,
     };
     const result = mapStateToProps(state);
     expect(result).toEqual(expectedProps);
