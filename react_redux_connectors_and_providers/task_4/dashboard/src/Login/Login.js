@@ -135,8 +135,4 @@ Login.propTypes = {
   logIn: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  logIn: loginRequest,
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

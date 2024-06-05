@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
+import { fromJS } from 'immutable';
 import App, { UnconnectedApp, mapStateToProps } from './App';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
@@ -79,13 +80,17 @@ describe('App Component', () => {
 
   describe('mapStateToProps', () => {
     it('should verify that the function returns the right object when passing the state', () => {
-      let state = fromJS({
-        isUserLoggedIn: true,
-        isNotificationDrawerVisible: true,
+      const state = fromJS({
+        ui: {
+          isUserLoggedIn: true,
+          isNotificationDrawerVisible: true,
+          user: {}
+        }
       });
       const expectedProps = {
         isLoggedIn: true,
         displayDrawer: true,
+        user: {}
       };
       const result = mapStateToProps(state);
       expect(result).toEqual(expectedProps);

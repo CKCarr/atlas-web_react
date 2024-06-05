@@ -55,28 +55,6 @@ export const loginFailure = () => {
   };
 };
 
-// task_7: Create Async Login Request function/Handler
-
-// Create a loginRequest function that takes into argument the email and password of the user:
-
-// Async action creator
-export const loginRequest = (email, password) => {
-  return async (dispatch) => {
-    dispatch(login(email, password));
-    try {
-      const response = await fetch("/login-success.json");
-      const data = await response.json();
-      if (data.success) {
-        dispatch(loginSuccess());
-      } else {
-        dispatch(loginFailure());
-      }
-    } catch {
-      dispatch(loginFailure());
-    }
-  };
-};
-
 // bind action creators
 // wrap them in dispatch functions
 // this allows to directly call action creators without needing to call dispatch
@@ -90,3 +68,26 @@ export const boundDisplayNotificationDrawer = (dispatch) =>
 
 export const boundHideNotificationDrawer = (dispatch) =>
   bindActionCreators(hideNotificationDrawer, dispatch);
+
+// task_7: Create Async Login Request function/Handler
+
+// Create a loginRequest function that takes into argument the email and password of the user:
+
+// Async action creator
+export const loginRequest = (email, password) => {
+  return (dispatch) => {
+    dispatch(login(email, password));
+    return fetch("/login-success.json")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(loginSuccess());
+        } else {
+          dispatch(loginFailure());
+        }
+      })
+      .catch(() => {
+        dispatch(loginFailure());
+      });
+  };
+};
